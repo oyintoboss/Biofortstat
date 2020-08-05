@@ -1,0 +1,118 @@
+﻿@model BioFortStat.ViewModel.VendorViewModel
+
+@{
+    ViewBag.Title = "UserVendor";
+    Layout = "~/Views/Shared/_VendorLayout.cshtml";
+   }
+
+    <h2>UserVendor</h2>
+
+    @using (Html.BeginForm("SaveVendor", "UserInfo"))
+    {
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.FirstName, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.VendorTypez.FirstName, new { @class = "form-control", @placeholder = "Enter FirstName" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.FirstName)
+                </div>
+            </div><!-- Col -->
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.LastName, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.VendorTypez.LastName, new { @class = "form-control", @placeholder = "Enter LastName" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.LastName)
+                </div>
+            </div><!-- Col -->
+            </div>
+            <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.BusinessAddress, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.VendorTypez.BusinessAddress, new { @class = "form-control", @placeholder = "Enter Business Address" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.BusinessAddress)
+                </div>
+            </div><!-- Col -->
+        <div class="col-sm-6">
+            <div class="form-group">
+                @Html.LabelFor(m => m.VendorTypez.BusinessName, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.VendorTypez.BusinessName, new { @class = "form-control", @placeholder = "Enter Business Name" })
+                @Html.ValidationMessageFor(m => m.VendorTypez.BusinessName)
+
+            </div>
+        </div><!-- Col -->
+        </div>      
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.GenderTypez, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.VendorTypez.GenderTypez, new SelectList(Model.Genderz, "GenderName", "GenderName"), "-- Select Gender --", new { @class = "form-control", @placeholder = "Enter State" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.GenderTypez)
+                </div>
+            </div><!-- Col -->
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.State, new { @class = "control-label" })
+                    @Html.DropDownListFor(m => m.VendorTypez.State, new SelectList(Model.Statez, "StateName", "StateName"), "-- Select State --", new { @class = "form-control", @placeholder = "Enter State" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.State)
+                </div>
+            </div><!-- Col -->
+        </div><!-- Row -->
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.ProfilePicture, new { @class = "control-label" })
+                   
+                        @Html.TextBoxFor(m => m.VendorTypez.ProfilePicture, new { type = "file" })
+                        <input type="button" value="UploadFile" class="btn btn-primary" style="margin: 20px;" />
+                    
+                    @Html.ValidationMessageFor(m => m.VendorTypez.ProfilePicture)
+                </div>
+            </div><!-- Col -->
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.PhoneNumber, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.VendorTypez.PhoneNumber, new { @class = "form-control", @placeholder = "Enter Phone" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.PhoneNumber)
+                </div>
+            </div><!-- Col -->
+        </div><!-- Row -->
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.ProductSold, new { @class = "control-label" })
+                    @Html.TextAreaFor(m => m.VendorTypez.ProductSold, new { @class = "form-control", @placeholder = "Enter Product Sold" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.ProductSold)
+                </div>
+            </div><!-- Col -->
+            
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.Village, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.VendorTypez.Village, new { @class = "form-control", @placeholder = "Enter Village" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.Village)
+                </div>
+            </div><!-- Col -->
+            <div class="col-sm-6">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.VendorTypez.LGA, new { @class = "control-label" })
+                    @Html.TextBoxFor(m => m.VendorTypez.LGA, new { @class = "form-control", @placeholder = "Enter L G A" })
+                    @Html.ValidationMessageFor(m => m.VendorTypez.LGA)
+                </div>
+            </div><!-- Col -->            
+        </div><!-- Row -->
+
+        @Html.HiddenFor(m => m.VendorTypez.Id)
+        @Html.AntiForgeryToken()
+
+        <div style="text-align: center; padding-top: 20px;">
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+        </div>      
+       
+    }
+
+
+

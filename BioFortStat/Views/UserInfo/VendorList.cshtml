@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "VendorList";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<h2>VendorList</h2>
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Vendors</a></li>
+        <li class="breadcrumb-item active" aria-current="page">View Vendors</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">List Of Registered Vendors</h6>
+                <div class="table-responsive">
+                    <table id="uservendor" class="table">
+                        <thead>
+                            <tr>
+                                
+                                <th>Delete</th>
+                                <th>FirstName</th>
+                                <th>LastName</th>
+                                <th>Gender</th>
+                                <th>Phone Number</th>
+                                <th>Business Name</th>
+                                <th>Business Address</th>
+                                <th>Product Sold/Services</th>
+                                <th>Village/ Town</th>
+                                <th>LGA</th>
+                                <th>State</th>
+                                <th>Registered Date</th>
+
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+
+    <script>
+
+    $(document).ready(function () {
+        $("#uservendor").DataTable({
+            ajax: {
+                url: "/api/vendor",
+                dataSrc : ""
+            },
+            columns: [
+               
+                    {
+                        data: "id",
+                        render: function (data, type, vendor) {
+                            return "<button class='btn btn-info nav-link js-delete' data-user-id=" + data + "> Delete </button>";
+                        }
+                    },
+                {
+                    data: "firstName"
+                },
+                {
+                    data: "lastName"
+                },
+        {
+            data: "genderTypez"
+        },
+        {
+            data: "phoneNumber"
+        },
+        {
+            data: "businessName"
+        },
+        {
+            data: "businessAddress"
+        },
+        {
+            data: "productSold"
+        },
+        {
+            data: "village"
+        },
+        {
+            data: "lga"
+        },
+        {
+            data: "state"
+        },
+        {
+            data: "createdDate"
+        }
+
+            ]
+        });
+
+        $("#uservendor").on("click", ".js-delete", function () {
+            var button = $(this);
+
+            $.ajax({
+                url: "/api/vendor/" + button.attr("data-user-id"),
+                method: "DELETE",
+                success: function () {
+                    table.row(button.parents("tr")).remove().draw();
+                    button.parents("tr").remove();
+                }
+            });
+        });
+    })
+    </script>
+}
+
+
+

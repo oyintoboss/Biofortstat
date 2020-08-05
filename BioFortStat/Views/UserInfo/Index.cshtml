@@ -1,0 +1,148 @@
+﻿@model IEnumerable<BioFortStat.Models.UserInformation>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Basic Information</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Basic Users List</h6>
+                <!-- Addition of New Buyer and Seller Button-->
+                <div class="form-group">
+
+                    @Html.ActionLink("Add User", "New", "UserInfo", null, new { @class = "btn btn-danger" })
+
+                </div>
+                <!--The End of the Addition of New Buyer and Seller-->
+                <div class="table-responsive">
+                    <table id="userinfo" class="table">
+                        <thead>
+                            <tr>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th>Title</th>
+                                <th>FirstName</th>
+                                <th>Last Name</th>
+                                <th>Middle Name</th>
+                                <th>Gender</th>
+                                <th>Mobile</th>
+                                <th>State</th>
+                                <th>L.G.A</th>                                
+                                <th>Passport</th>
+                                <th>Created Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#userinfo").DataTable({
+                ajax: {
+                    url: "/api/userinfo",
+                    dataSrc: ""
+                },
+                columns: [
+                     {
+                         data: "id",
+                         render: function (data, type, edituser) {
+                             return "<button class='btn btn-primary nav-link js-edit' data-user-id=" + data + "> Edit </button>";                            
+                         }
+                     },
+                    {
+                        data: "id",
+                        render: function (data, type, deluser) {
+                            return "<button class='btn btn-info nav-link js-delete' data-user-id=" + data + "> Delete </button>";
+                        }
+                    },
+                    {
+                        data: "title"
+                    },
+                    {
+                        data: "firstName"
+                    },
+                    {
+                        data: "lastName"
+                    },
+                    {
+                        data: "middleName"
+                    },
+                    {
+                        data: "gender"
+                    },
+                    {
+                        data: "mobile"
+                    },
+                    {
+                        data: "state"
+                    },
+                    {
+                        data: "lga"
+                    },
+                    //{
+                    //    data: "zipCode"
+                    //},
+                    {
+                        data: "passport"
+                    },
+                    {
+                        data: "dateCreated"
+                    }
+
+                ]
+            });
+
+            $("#userinfo ").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/userinfo/" + button.attr("data-user-id"),
+                    method: "DELETE",
+                    success: function () {
+                        table.row(button.parents("tr")).remove().draw();
+                        button.parents("tr").remove();
+                    }
+                });
+            });
+
+            $("#userinfo ").on("click", ".js-edit", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/userinfo/" + button.attr("data-user-id"),
+                    method: "PUT",
+                    success: function () {
+                        window.location = "/userinfo/createuser";
+                      
+                    }
+                });
+            });
+
+        });
+   </script>
+}
+
+
+
+
+
+
+
+
+
+

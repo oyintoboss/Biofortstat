@@ -1,0 +1,138 @@
+﻿
+@{
+    ViewBag.Title = "CreateDistRecord";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<h2 style="text-align:center;">Distribution-Records</h2>
+
+<form id="newdistrec">
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Crop</label>
+                <div class="tt-container">
+                    <select class="tt-container" id="crop" required></select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Indicator</label>
+                <div class="tt-container">
+                    <select class="tt-container" id="indicator" required></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Year</label>
+                <div class="tt-container">
+                    <input type="number" id="year" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>State</label>
+                <div class="tt-container" required>
+                    <select id="state"></select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Value</label>
+                <div class="tt-container" required>
+                    <input type="number" id="value" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Created By</label>
+                <div class="tt-container" required>
+                    <input type="text" id="c_user" class="form-control" />
+                </div>
+            </div>
+        </div> 
+
+    </div>
+
+    <div style="text-align:center">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            var obj = {};
+            $.ajax({
+                url: "/api/GetCrop_Indicator_State/GetCropIndicatorState",
+                data: obj
+            })
+            .done(function (response) {               
+                var cropz, indicatorz, statez = "";
+                if (response.value == 1) {
+
+                    cropz = "<option value=\"0\">--Choose Crop --</option>";
+                    $.each(response.crop, function (i, item) {
+                        cropz += "<option value=" + item.cropName + ">" + item.cropName + "</option>";
+                    })
+                    $("#crop").html(cropz);
+
+                    statez = "<option value=\"0\">--Select State --</option>";
+                    $.each(response.state, function (i, item) {
+                        statez += "<option value=" + item.stateName + ">" + item.stateName + "</option>";
+                    })
+                    $("#state").html(statez);
+
+                    indicatorz = "<option value=\"0\">--Choose Indicator --</option>";
+                    $.each(response.indicator, function (i, item) {
+                        indicatorz += "<option value=" + item.indicatorType + ">" + item.indicatorType + "</option>";
+                    })
+                    $("#indicator").html(indicatorz);
+                }
+            })
+
+
+            $("#newdistrec").submit(function (e) {
+                e.preventDefault();
+                let Crop = $("#crop :selected").val();
+                let Indicator = $("#indicator :selected").val();
+                let year = $("#year").val();
+                let Value = $("#value").val();
+                let State = $("#state :selected").val();
+                let createduser = $("#c_user").val();
+             
+                var obj = {};
+                obj.Crop = Crop;
+                obj.Indicator = Indicator;
+                obj.Year = year;
+                obj.State = State;
+                obj.Value = Value;
+                obj.CreatedUser = createduser;
+
+                $.ajax({
+                    url: "/api/distributionrecords",
+                    method: "post",
+                    data: obj
+                })
+               .done(function (response) {
+                   if (response.value == 1) {
+                       console.log("Done");
+                       alert(response.msg);
+                   }
+               })
+
+            });
+        });
+    </script>
+    }

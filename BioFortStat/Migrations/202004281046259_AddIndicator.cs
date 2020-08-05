@@ -1,0 +1,26 @@
+namespace BioFortStat.Migrations
+{
+    using System;
+    using System.Data.Entity.Migrations;
+    
+    public partial class AddIndicator : DbMigration
+    {
+        public override void Up()
+        {
+            CreateTable(
+                "dbo.Indicators",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        IndicatorType = c.String(),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+        }
+        
+        public override void Down()
+        {
+            DropTable("dbo.Indicators");
+        }
+    }
+}

@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "CreateCategory";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<h2>CreateCategory</h2>
+
+<form id="newProduct">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Category Name</label>
+                <div class="tt-container">
+                    <input id="cname" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Category Decription</label>
+                <div class="tt-container">
+                    <input id="cdesc" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+   
+    <div style="text-align:center">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(document).submit(function (e) {
+                e.preventDefault();
+                let CategoryName = $("#cname").val();
+                let CategoryDesc = $("#cdesc").val();
+
+                var obj = {};
+                obj.CategoryName = CategoryName;
+                obj.CategoryDescription = CategoryDesc;
+                $.ajax({
+                    url: "/api/category",
+                    method: "post",
+                    data: obj
+                })
+                .done(function (response) {
+                    alert(response.msg);
+                })
+            });
+        });
+    </script>
+    }

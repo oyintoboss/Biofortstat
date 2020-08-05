@@ -1,0 +1,146 @@
+﻿@model IEnumerable<BioFortStat.Models.BuyerAndSeller>
+@{
+    ViewBag.Title = "BuyerandSellerList";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">BuyerAndSeller</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">List Of Buyer And Seller</h6>
+                <!-- Addition of New Buyer and Seller Button-->
+                <div class="form-group">
+
+                    @Html.ActionLink("NEW BUYER~SELLER", "New", "BuyerandSeller", null, new { @class = "btn btn-danger" })
+
+                </div>
+                <!--The End of the Addition of New Buyer and Seller-->
+                <div class="table-responsive">
+                    <table id="buyerandseller" class="table">
+                        <thead>
+                            <tr>
+                                <th>Edit</th>
+                                    <th>Delete</th>
+                                <th>Category</th>
+                                <th>Product</th>
+                                <th>Qty.</th>
+                                <th>Unit</th>
+                                <th>Availability</th>
+                                <th>Price</th>
+                                <th>Village</th>
+                                <th>LGA</th>
+                               
+                                <th>State</th>
+                                <th>Negotiable</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#buyerandseller").DataTable({
+                ajax: {
+                    url: "/api/buyerandseller",
+                    dataSrc: ""
+                },
+                columns: [
+                   {
+                       data: "id",
+                       render: function (data, type, edituser) {
+                           return "<button class='btn btn-info nav-link js-edit' data-user-id=" + data + "> Edit </button>";
+                       }
+                   },
+                     {
+                         data: "id",
+                         render: function (data, type, deluser) {
+                             return "<button class='btn btn-info nav-link js-delete' data-user-id=" + data + "> Delete </button>";
+                         }
+                     },
+                    {
+                        data: "categoryValue",
+                    },
+                    {
+                        data: "product"
+                    },
+                    {
+                        data: "quantity",
+                    },
+                    {
+                        data: "unit"
+                    },
+                    {
+                        data: "availability",
+                    },
+                    {
+                        data: "price"
+                    },
+                    {
+                        data: "village",
+                    },
+                    {
+                        data: "lgaValue"
+                    },                    
+                    {
+                        data: "state",
+                    },
+                    {
+                        data: "negotiable"
+                    },
+                    {
+                        data: "createdDate",
+                    },
+                    {
+                        data: "status"
+                    }
+                ]
+            });
+
+            $("#buyerandseller ").on("click", ".js-edit", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/buyerandseller/" + button.attr("data-user-id"),
+                    method: "PUT",
+                    success: function (response) {
+                        window.location = "/buyerandseller/createbuyerandseller";
+                      //  table.row(button.parents("tr")).remove().draw();
+                        //button.parents("tr").remove();
+                    }
+                });
+               
+            });
+            $("#buyerandseller ").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/buyerandseller/" + button.attr("data-user-id"),
+                    method: "DELETE",
+                    success: function () {
+                        table.row(button.parents("tr")).remove().draw();
+                        button.parents("tr").remove();
+                    }
+                });
+            });
+
+        });
+    </script>
+}
+
+
+
+

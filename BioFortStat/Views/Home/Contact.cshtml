@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+<div class="row text-center">
+    <div class="col-md-6 col-md-offset-3">
+        <h2><span class="text-success">Send us a message</span> anytime</h2>
+        <p>
+            Your message will be received immediately by our agents.
+        </p>
+    </div>
+</div>
+
+<div class="row text-center m-t-lg">
+    <div class="col-md-6">
+
+        <form class="form-horizontal" role="form" action="Contact" method="post">
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="name">Name</label>
+
+                <div class="col-sm-10">
+                    <input name="name" class="form-control" id="name" type="text" placeholder="Your full name" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="email">Email</label>
+
+                <div class="col-sm-10">
+                    <input name="email" class="form-control" id="email" type="email" placeholder="user@example.com" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="email">Subject</label>
+
+                <div class="col-sm-10">
+                    <input name="subject" class="form-control" id="subject" type="text" placeholder="Subject" value="">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label" for="message">Message</label>
+
+                <div class="col-sm-10">
+                    <textarea name="message" class="form-control" placeholder="Your message here..." rows="3"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <button type="submit" class="btn btn-success" >Send us a message</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="col-md-6 text-left">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>NIGERIA Office</h2>
+                <address>
+                    <strong><span class="navy">HarvestPlus</span></strong> c/o IITA, Idi- <br>
+                    Ose, Moniya, Ibadan,<br>
+                    Oyo State. NIGERIA.<br><br>
+                    <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +234 703 939 0279 <br>
+                    <abbr title="Fax"><i class="fa fa-fax"></i></abbr>  +44 208 711 3786 <br>
+                    <abbr title="Address"><i class="fa fa-map-marker"></i></abbr> Ibadan, NIGERIA <br>
+                    <abbr title="P.O.Box"><i class="fa fa-envelope"></i></abbr>  PMB 5320 <br>
+                    <abbr title="Email"><i class="fa fa-envelope"></i></abbr> info@harvestplusng.org <br>
+                </address>
+            </div>
+            <div class="col-md-6">
+                <h2>Headquarters</h2>
+                <address>
+                    <strong><span class="navy">HarvestPlus</span></strong> c/o IFPRI <br>
+                    2033 K Street, NW<br>
+                    Washington DC, USA.<br><br>
+                    <abbr title="Phone"><i class="fa fa-phone"></i></abbr> +1 202-862-5600 <br>
+                    <abbr title="Fax"><i class="fa fa-fax"></i></abbr>  +1 202-467-4439 <br>
+                    <abbr title="Address"><i class="fa fa-map-marker"></i></abbr> Washington DC, USA <br>
+                    <abbr title="P.O.Box"><i class="fa fa-envelope"></i></abbr>  20006-1002 <br>
+                    <abbr title="Email"><i class="fa fa-envelope"></i></abbr> harvestplus@cgiar.org <br>
+                </address>
+            </div>
+        </div>
+    </div>
+</div>

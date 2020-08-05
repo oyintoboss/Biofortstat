@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "CreateMarket";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+
+}
+
+<h2 style="text-align:center"> Market SetUp </h2>
+<form id="newmarket">
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Market Name</label>
+                <div class="tt-container">
+                    <input id="mname" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Market Description</label>
+                <div class="tt-container">
+                    <textarea id="mdesc" required value="" class="form-control"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>State</label>
+                <div class="tt-container">
+                    <select class="tt-container" id="state" required>
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Market Days</label>
+                <div class="tt-container" required>
+                    <select id="mdays">
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>List Main Products</label>
+                <div class="tt-container" required>
+                    <select class="mproduct" multiple>
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Market LGA</label>
+                <div class="tt-container">
+                    <input id="mlga" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align:center">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            GetMarket();
+            SubmitMarket();
+        });
+            // GetState,DaysandProduct
+            function GetMarket() {
+                var obj = {};
+                $.ajax({
+                    url: "/api/Get_State_Product_Days/GetStateProductDays",
+                    data: obj
+                })
+                .done(function (response) {
+                    var statez, productz, dayz = "";
+                    if (response.value == 1) {
+
+                        productz = "<option value=\"0\">--Choose MainProduct--</option>";
+                        $.each(response.product, function (i, item) {
+                            productz += "<option value=" + item.productName + ">" + item.productName + "</option>";
+                        })
+                        $(".mproduct").html(productz);
+
+                        statez = "<option value=\"0\">--Select State--</option>";
+                        $.each(response.state, function (i, item) {
+                            statez += "<option value=" + item.stateName + ">" + item.stateName + "</option>";
+                        })
+                        $("#state").html(statez);
+
+                        dayz = "<option value=\"0\">--Choose Days--</option>";
+                        $.each(response.days, function (i, item) {
+                            dayz += "<option value=" + item.days + ">" + item.days + "</option>";
+                        })
+                        $("#mdays").html(dayz);
+                    }
+                })
+            };
+           
+
+            function SubmitMarket() {
+                $("#newmarket").submit(function (e) {
+                    e.preventDefault();
+                    let MarketName = $("#mname").val();
+                    let MarketDescription = $("#mdesc").val();
+                    let MarketState = $("#state :selected").val();
+                    let MarketDays = $("#mdays :selected").val();
+                    //let MainProduct = $(".mproduct :selected").val();
+                    let MarketLGA = $("#mlga").val();
+                    let MainProduct =  $('.mproduct option:selected').toArray().map(item => item.text).join();
+
+                    var obj = {};
+                    obj.MarketName = MarketName;
+                    obj.MarketDescription = MarketDescription;
+                    obj.MarketDays = MarketDays;
+                    obj.MainProducts = MainProduct;
+                    obj.MarketState = MarketState;
+                    obj.MarketLGA = MarketLGA;
+
+                    $.ajax({
+                        url: "/api/market",
+                        method: "post",
+                        data: obj
+                    })
+                    .done(function (response) {
+                        console.log("Done");
+                        alert(response.msg);
+                    })
+                });
+            };
+
+            
+       
+    </script>
+}
+

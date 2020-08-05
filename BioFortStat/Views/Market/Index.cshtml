@@ -1,0 +1,123 @@
+﻿@model IEnumerable<BioFortStat.Models.Market>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Market</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">List Of Market</h6>
+                <!-- Addition of New Buyer and Seller Button-->
+                <div class="form-group">
+
+                    @Html.ActionLink("Add Market", "New", "Market", null, new { @class = "btn btn-danger" })
+
+                </div>
+                <!--The End of the Addition of New Buyer and Seller-->
+                <div class="table-responsive">
+                    <table id="market" class="table">
+                        <thead>
+                            <tr>
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th>Market Name</th>
+                                <th>Market Description</th>
+                                <th>Market Days</th>
+                                <th>Main Products</th>
+                                <th>Market State</th>
+                                <th>Market LGA</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#market").DataTable({
+                ajax: {
+                    url: "/api/market",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "id",
+                        render: function (data, type, editmarket) {
+                            return "<button class='btn btn-primary nav-link js-edit' data-user-id=" + data + "> Edit </button>";
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function (data, type, delmarket) {
+                            return "<button class='btn btn-info nav-link js-delete' data-user-id=" + data + "> Delete </button>";
+                        }
+                    },
+                    {
+                        data: "marketName"
+                    },
+                    {
+                        data: "marketDescription",
+                    },
+                    {
+                        data: "marketDays"
+                    },
+                    {
+                        data: "mainProducts",
+                    },
+                    {
+                        data: "marketState"
+                    },
+                    {
+                        data: "marketLGA"
+                    }
+                   
+                ]
+            });
+
+            $("#market ").on("click", ".js-edit", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/market/" + button.attr("data-user-id"),
+                    method: "PUT",
+                    success: function () {
+                        window.location = "/market/createmarket";
+                       
+                    }
+                });
+            });
+
+
+            $("#market ").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/market/" + button.attr("data-user-id"),
+                    method: "DELETE",
+                    success: function () {
+                        table.row(button.parents("tr")).remove().draw();
+                        button.parents("tr").remove();
+                    }
+                });
+            });
+
+        });
+    </script>
+}
+
+
+
+

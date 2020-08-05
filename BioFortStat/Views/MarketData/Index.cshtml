@@ -1,0 +1,904 @@
+﻿@model List<BioFortStat.Models.Product>
+@{
+    ViewBag.Title = "Index";
+}
+<style>
+      .button {
+        background-color: #1c87c9;
+        border: none;
+        color: white;
+        padding: 20px 34px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+        margin: 4px 2px;
+        cursor: pointer;
+      }
+/*#prices {
+  width: 100%;
+  height: 500px;
+}*/
+</style>
+
+  
+   
+   
+    
+    <div class="container-fluid">
+        <div class="row">
+            <button id="change-chart">Change to Classic</button>
+            <br><br>
+            <div class="col-sm-12">             
+               
+                <div id="prices" style="width: 7000px; height: 400px;"></div>
+            </div>
+        </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="container">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#home">DATA SELECTION</a></li>
+                            <li><a data-toggle="tab" href="#menu1">VISUALIZE DATA</a></li>
+                            <li><a data-toggle="tab" href="#menu2">GIS MAPPING</a></li>
+
+                        </ul>
+
+                        <div class="tab-content">
+                            <div id="home" class="tab-pane fade in active">
+                                <div class="container-fluid">
+                                    <div class="col-sm-12">
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <h5><u style="color: blue;">GEO-POLITICAL ZONES & STATES</u></h5>
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Search" class="form-control" />
+                                                </div>
+                                                <div class="selectallstate">
+                                                    <input type="checkbox" id="geoselectx" /> Select All
+                                                    <div class="gezso" id="geo">
+                                                        <div class="form-group dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">  North East State <span class="caret"></span></button>
+                                                            <p> <input type="checkbox" id="northeast" />  North East</p>
+                                                            <ul style="list-style-type:none" id="northeastx" class="dropdown-menu"></ul>
+                                                        </div>
+                                                        
+                                                        <div class="form-group dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> North Central State <span class="caret"></span></button>
+                                                            <p> <input type="checkbox" id="northcentral" /> North Central</p>
+                                                            <ul style="list-style-type:none" id="northcentx" class="dropdown-menu">
+                                                               
+                                                            </ul>
+                                                        </div>
+                                                       
+                                                       
+                                                        <div class="form-group dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> South West State <span class="caret"></span></button>
+                                                            <p> <input type="checkbox" id="southwest" /> South West</p>
+                                                            <ul style="list-style-type:none" id="southwestx" class="dropdown-menu">
+                                                               
+                                                            </ul>
+                                                        </div>
+                                                        
+                                                        <div class="form-group dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"> North West State <span class="caret"></span></button>
+                                                            <p> <input type="checkbox" id="northwest" /> North West</p>
+                                                            <ul style="list-style-type:none" id="northwestx" class="dropdown-menu"></ul>
+                                                        </div>
+                                                        
+                                                        <div class="form-group dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">South South State <span class="caret"></span></button>
+                                                            <p> <input type="checkbox" id="southsouth" /> South South</p>
+                                                            <ul style="list-style-type:none" id="southsouthx" class="dropdown-menu"></ul>
+                                                        </div>
+                                                        
+                                                        <div class="form-group dropdown">
+                                                            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">South East State <span class="caret"></span></button>
+                                                            <p> <input type="checkbox" id="southeast" /> South East</p>
+                                                            <ul style="list-style-type:none" id="southeastx" class="dropdown-menu"></ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                @*antonela@archer.eu*@
+
+                                                <div class="selectandunselect">
+
+                                                </div>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h5><u style="color: blue;">INDICATORS</u></h5>
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Search" class="form-control" />
+                                                </div>
+                                                <div class="form-group" id="Indicatorz">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-sm-6">
+                                                <h5><u style="color: blue;">CROPS</u></h5>
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Search" class="form-control" />
+                                                </div>
+                                                <div class="form-group" id="Cropx">
+
+
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h5><u style="color: blue;">YEARS</u></h5>
+                                                <div class="input-group">
+                                                    <input type="text" placeholder="Search" class="form-control" />
+                                                </div>
+                                                <div class="form-group" id="Yearx">
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="text-align:center; margin-bottom: 20px;">
+                                            @*<a href="#linechart_material" class="button">Show Data</a>*@
+                                            <button type="button" class="btn btn-success">Show Data</button>
+                                            @*<a href="#menu1"><input type="button" class="btn btn-success" id="showdata">Show Data</a>*@
+                                            <button type="button" class="btn btn-success">Download Data</button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="menu1" class="tab-pane fade">
+                                <h3>The Visualized Data Selected</h3>
+                                <div class="visualize " id="linechart_material" style="width: 80%; height: 170px;"></div>
+                                @*<div id="chart_div">
+                                        <div id="chart_divxx" style="width: 100%; height: 200px;"></div>
+                                    </div>*@
+                            </div>
+                            <div id="menu2" class="tab-pane fade">
+                                <h3>Menu 2</h3>
+                                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-sm-4">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                                <!-- Indicators -->
+                                <ol class="carousel-indicators">
+                                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                                    <li data-target="#myCarousel" data-slide-to="4"></li>
+                                    <li data-target="#myCarousel" data-slide-to="5"></li>
+                                    <li data-target="#myCarousel" data-slide-to="6"></li>
+                                </ol>
+
+
+
+                                <div class="carousel-inner" role="listbox">
+                                    @{
+                                        int i = 0;
+                                    }
+                                    @foreach (var item in Model)
+                                    {
+                                        i++;
+                                        var active = i == 1 ? "active" : "";
+                                        <div class="item carousel-item @active">
+                                            <img src="@Url.Content(item.ProductPicture)" alt="@item.ProductName" width="200" height="260">
+                                        </div>
+                                    }
+                                </div>
+                                <!-- Left and right controls -->
+                                <a class=" carousel-control" href="#myCarousel" data-slide="prev">
+                                    <span class="glyphicon glyphicon-chevron-left"></span>
+                                    <span class="sr-only">Previous</span>
+                                </a>
+                                <a class=" carousel-control" href="#myCarousel" data-slide="next">
+                                    <span class="glyphicon glyphicon-chevron-right"></span>
+                                    <span class="sr-only">Next</span>
+                                </a>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="col-md-8 grid-margin stretch-card">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="card-title">Buyers And Sellers</h4>
+                                        <p class="card-description">Products Prices</p>
+                                        <div class="table-responsive" style="height: 200px; width: 450px; overflow: auto; overflow-x: hidden;">
+                                            <table class="table table-hover" id="buyandsellz" style="height: 340px;">
+                                                <thead>
+                                                    <tr>
+
+                                                        <th>Category</th>
+                                                        <th>Product</th>
+                                                        <th>Qty.</th>
+                                                        <th>Unit</th>
+                                                        <th>Prices</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="buyandsell"></tbody>
+                                            </table>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            @Html.Partial("_Twitter");
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FHarvestPlus.Nigeria%2Fhttps%3A%2F%2Fwww.facebook.com%2Fpg%2FHarvestPlus.Nigeria%2Fphotos%2F%3Ftab%3Dalbum%26album_id%3D165417163664461%26ref%3Dpage_internal&tabs=timeline&width=340&height=450&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=256536972207356"
+                                    width="340" height="450"
+                                    style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                                    allowTransparency="true" allow="encrypted-media"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="col-sm-12">
+                <div class="col-sm-4" style="height: 340px; width: 360px;">
+                </div>
+                <div class="col-sm-4" style="height: 340px;">                   
+                </div>
+                <div class="col-sm-4" style="height: 340px;  width: 360px; ">
+                    @*<div class="col-sm-12">
+                        @Html.Partial("_Twitter");
+                    </div>
+                    <div class="col-sm-12">
+                        <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FHarvestPlus.Nigeria%2Fhttps%3A%2F%2Fwww.facebook.com%2Fpg%2FHarvestPlus.Nigeria%2Fphotos%2F%3Ftab%3Dalbum%26album_id%3D165417163664461%26ref%3Dpage_internal&tabs=timeline&width=340&height=450&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=256536972207356"
+                                width="340" height="450"
+                                style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                                allowTransparency="true" allow="encrypted-media"></iframe>
+                    </div>*@
+                </div>
+            </div>
+        </div>
+    
+
+
+
+
+
+    @section scripts
+    {
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script> 
+       <script type="text/javascript">     
+      $(document).ready(function () {
+          ChartPrice();
+                ChartDiagram();
+                Buyerandseller();
+                GetCrop();
+                GetYearAndIndicator();
+                GetGeo();
+                ShowData();
+                select_deselectnortheast();
+                select_deselectsoutheast();
+                select_deselectnorthcentral();
+                select_deselectnorthwest();
+                select_deselectsouthsouth();
+                select_deselectsouthwest();
+                selectAllCrop();
+                deselectAllCrop();
+                selectAllGeo();
+                selectAllGeos();
+                deselectAllGeo();
+                selectAllYear();
+                deselectAllYear();
+                selectAllIndicator();
+                deselectAllIndicator();
+                DrawVisualize();
+            });
+
+    
+
+            function DrawVisualize() {
+                google.charts.load('current', { 'packages': ['line'] });
+                google.charts.setOnLoadCallback(drawChartzz);
+
+                function drawChartzz() {
+
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('number', 'Day');
+                    data.addColumn('number', 'Guardians of the Galaxy');
+                    data.addColumn('number', 'The Avengers');
+                    data.addColumn('number', 'Transformers: Age of Extinction');
+
+                    data.addRows([
+                    [1, 37.8, 80.8, 41.8],
+                    [2, 30.9, 69.5, 32.4],
+                    [3, 25.4, 57, 25.7],
+                    [4, 11.7, 18.8, 10.5],
+                    [5, 11.9, 17.6, 10.4],
+                    [6, 8.8, 13.6, 7.7],
+                    [7, 7.6, 12.3, 9.6],
+                    [8, 12.3, 29.2, 10.6],
+                    [9, 16.9, 42.9, 14.8],
+                    [10, 12.8, 30.9, 11.6],
+                    [11, 5.3, 7.9, 4.7],
+                    [12, 6.6, 8.4, 5.2],
+                    [13, 4.8, 6.3, 3.6],
+                    [14, 4.2, 6.2, 3.4]
+                    ]);
+
+                    var options = {
+                        chart: {
+                            title: 'Box Office Earnings in First Two Weeks of Opening',
+                            subtitle: 'in millions of dollars (USD)'
+                        },
+                        width: 900,
+                        height: 500
+                    };
+
+                    var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+                    chart.draw(data, google.charts.Line.convertOptions(options));
+                }
+            }
+
+            function ShowData() {
+                $("#showdata").click(function (e) {
+                    e.preventDefault();
+                    let years = [];
+                    years = $("#Yearx :checked").each(function () {
+                        years.push($(this).val());
+                    });
+
+                    let crops = [];
+                    crops = $("#Cropx :checked").each(function () {
+                        crops.push($(this).val());
+                    });
+
+                    let Indicators = [];
+                    Indicators = $("#Indicatorz :checked").each(function () {
+                        Indicators.push($(this).val());
+                    });
+                    // geo
+                    let Geos = [];
+                    Geos = $("#geo :checked").each(function () {
+                        Geos.push($(this).val());
+                    });
+
+
+                    // console.log("Years " + years);
+                });
+            };
+            function select_deselectnortheast() {
+                $("#northeast").click(function (e) {
+                    if (this.checked) {
+                        $(".ne").each(function () {
+                            this.checked = true;
+                        });
+
+                    }
+                    else {
+                        $(".ne").each(function () {
+                            this.checked = false;
+                        });
+                    }
+                });
+            };
+            function select_deselectsoutheast() {
+                $("#southeast").click(function (e) {
+                    if (this.checked) {
+                        $(".se").each(function () {
+                            this.checked = true;
+                        });
+
+                    }
+                    else {
+                        $(".se").each(function () {
+                            this.checked = false;
+                        });
+                    }
+                });
+            };
+            function select_deselectnorthcentral() {
+                $("#northcentral").click(function (e) {
+                    if (this.checked) {
+                        $(".nc").each(function () {
+                            this.checked = true;
+                        });
+
+                    }
+                    else {
+                        $(".nc").each(function () {
+                            this.checked = false;
+                        });
+                    }
+                });
+            };
+            function select_deselectnorthwest() {
+                $("#northwest").click(function (e) {
+                    if (this.checked) {
+                        $(".nw").each(function () {
+                            this.checked = true;
+                        });
+
+                    }
+                    else {
+                        $(".nw").each(function () {
+                            this.checked = false;
+                        });
+                    }
+                });
+            };
+            function select_deselectsouthsouth() {
+                $("#southsouth").click(function (e) {
+                    if (this.checked) {
+                        $(".ss").each(function () {
+                            this.checked = true;
+                        });
+
+                    }
+                    else {
+                        $(".ss").each(function () {
+                            this.checked = false;
+                        });
+                    }
+                });
+            };
+            function select_deselectsouthwest() {
+                $("#southwest").click(function (e) {
+                    if (this.checked) {
+                        $(".sw").each(function () {
+                            this.checked = true;
+                        });
+
+                    }
+                    else {
+                        $(".sw").each(function () {
+                            this.checked = false;
+                        });
+                    }
+                });
+            };
+
+            function selectAllGeos() {
+                $("#geoselectx").click(function (e) {
+                    if (this.checked) {
+                        $(".geos").each(function () {
+                            this.checked = true;
+                        });
+                       
+
+                    }
+                    else {
+                        $(".geos").each(function () {
+                            this.checked = false;
+                        });
+                        
+                    }
+                });
+            };
+
+            function selectAllGeo() {
+                $(document).on('click', '.selectallgeo', function () {
+                    $('.geos').prop('checked', true);
+                    //$("#northeast").prop('checked', true);
+                    //$("#southeast").prop('checked', true);
+                    //$("#northcentral").prop('checked', true);
+                    //$("#northwest").prop('checked', true);
+                    //$("#southsouth").prop('checked', true);
+                    //$("#southwest").prop('checked', true);
+                });
+            };
+
+            function deselectAllGeo() {
+                $(document).on('click', '.unselectallgeo', function () {
+                    $('.geos').prop('checked', false);
+                    //$("#northeast").prop('checked', false);
+                    //$("#southeast").prop('checked', false);
+                    //$("#northcentral").prop('checked', false);
+                    //$("#northwest").prop('checked', false);
+                    //$("#southsouth").prop('checked', false);
+                    //$("#southwest").prop('checked', false);
+                });
+            };
+
+            function selectAllCrop() {
+                $(document).on('click', '.selectall', function () {
+                    $('.crops').prop('checked', true);
+                });
+            };
+
+            function deselectAllCrop() {
+                $(document).on('click', '.unselectall', function () {
+                    $('.crops').prop('checked', false);
+                });
+            };
+
+            function selectAllYear() {
+                $(document).on('click', '.selectallyear', function () {
+                    $('.year').prop('checked', true);
+                });
+            };
+
+            function deselectAllYear() {
+                $(document).on('click', '.unselectallyear', function () {
+                    $('.year').prop('checked', false);
+                });
+            };
+            function selectAllIndicator() {
+                $(document).on('click', '.selectallindic', function () {
+                    $('.indicator').prop('checked', true);
+                });
+            };
+
+            function deselectAllIndicator() {
+                $(document).on('click', '.unselectallindic', function () {
+                    $('.indicator').prop('checked', false);
+                });
+            };
+            function GetGeo() {
+                var obj = {};
+                $.ajax({
+                    url: "/api/GetGeo/GetGeoz",
+                    data: obj
+                })
+                .done(function (response) {
+                    var northeastz, southeastz, northcentz, northwestz, southsouthz, southwestz, selectallz = "";
+
+
+
+                    $.each(response.southwest, function (i, item) {
+                        southwestz += "<li><input type='checkbox' class='geos sw' value='" + item + "' >    " + item + "</li>";
+                    });
+
+
+                    $("#southwestx").html(southwestz);
+
+                    $.each(response.southsouth, function (i, item) {
+                        southsouthz += "<li><input type='checkbox' class='geos ss' value='" + item + "' >    " + item + "</li>";
+
+
+                    });
+
+
+                    $("#southsouthx").html(southsouthz);
+
+                    $.each(response.northeast, function (i, item) {
+                        northeastz += "<li><input type='checkbox' class='geos ne' value='" + item + "' >    " + item + "</li>";
+                    });
+
+
+                    $("#northeastx").html(northeastz);
+
+                    $.each(response.northwest, function (i, item) {
+                        northwestz += "<li><input type='checkbox' class='geos nw' value='" + item + "' >    " + item + "</li>";
+
+
+                    });
+
+                    $("#northwestx").html(northwestz);
+
+                    $.each(response.southeast, function (i, item) {
+                        southeastz += "<li><input type='checkbox' class='geos se' value='" + item + "' >    " + item + "</li>";
+
+
+                    });
+
+                    $("#southeastx").html(southeastz);
+
+                    $.each(response.northcent, function (i, item) {
+                        northcentz += "<li><input type='checkbox' class='geos nc' value='" + item + "' >    " + item + "</li>";
+
+
+                    });
+
+                    $("#northcentx").html(northcentz);
+
+                    selectallz += "<button type='button' class='btn btn-primary selectallgeo'>Select All</button>" + "   " +
+                                                     "<button type='button' class='btn btn-primary unselectallgeo'> Unselect All </button>";
+                    $(".selectandunselect").html(selectallz);
+
+
+                })
+            };    
+            function GetYearAndIndicator() {
+                var obj = {};
+                $.ajax({
+                    url: "/api/GetYear_And_Indicator/GetYearzandIndicator",
+                    data: obj
+                })
+                .done(function (response) {
+                    var yearz, indicatorz = "";
+                    $.each(response.yearandindicator, function (i, item) {
+                        indicatorz += "<ul style='list-style-type:none;'>" +
+                                                    "<li><input type='checkbox' class='indicator' value='" + item.indicator + "'>   " + item.indicator + "</li>" +
+                                                "</ul>";
+                    });
+
+                    indicatorz += "<button type='button' class='btn btn-primary selectallindic'>Select All</button>" + "   " +
+                                                     "<button type='button' class=' unselectallindic btn btn-primary'>Unselect All</button>";
+
+                    $("#Indicatorz").html(indicatorz);
+                    // For Years
+                    $.each(response.yearandindicator, function (i, item) {
+                        yearz += "<ul style='list-style-type:none;'>" +
+                                                    "<li><input type='checkbox' class='year' value='" + item.year + "'>   " + item.year + "</li>" +
+                                                "</ul>";
+                    });
+
+                    yearz += "<button type='button' class='btn btn-primary selectallyear'>Select All</button>" + "   " +
+                                                     "<button type='button' class=' unselectallyear btn btn-primary'>Unselect All</button>";
+
+                    $("#Yearx").html(yearz);
+
+                })
+            };
+
+            function GetCrop() {
+                var obj = {};
+                $.ajax({
+                    url: "/api/GetCrop/GetCropz",
+                    data: obj
+                })
+                .done(function (response) {
+                    var cropz = "";
+                    $.each(response.crop, function (i, item) {
+                        cropz += "<ul style='list-style-type:none;'>" +
+                                                    "<li><input type='checkbox' class='crops' value='" + item.cropName + "' >    " + item.cropName + "</li>" +
+                                                "</ul>";
+
+
+                    });
+
+                    cropz += "<button type='button' class='btn btn-primary selectall'>Select All</button>" + "   " +
+                                                     "<button type='button' class=' unselectall btn btn-primary'>Unselect All</button>";
+                    $("#Cropx").html(cropz);
+
+                })
+            };
+
+            function ChartDiagram() {
+                google.charts.load('current', { 'packages': ['line', 'corechart'] });
+                google.charts.setOnLoadCallback(drawChart);
+
+                function drawChart() {
+
+
+                    var chartDiv = document.getElementById('chart_div');
+
+                    var data = new google.visualization.DataTable();
+
+                    data.addColumn('number', "Market Price");
+                    data.addColumn('number', "Market Quantity");
+                    data.addColumn('string', 'Market State');
+
+                    // Duplicate Of DrawChart Begining
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        url: '/api/product',
+                        data: '{}',
+                        success: function (response) {
+                            $.each(response, function (i, d) {
+                                data.addRow([parseInt(d.productPrice), d.productQuantity, d.state]);
+                            });
+
+                            var materialOptions = {
+                                chart: {
+                                    title: 'Average Temperatures and Daylight in Iceland Throughout the Year'
+                                },
+
+                                series: {
+                                    // Gives each series an axis name that matches the Y-axis below.
+                                    0: { axis: 'Market Prices' },
+                                    1: { axis: 'Market Days' }
+                                },
+                                axes: {
+                                    // Adds labels to each axis; they don't have to match the axis names.
+                                    y: {
+                                        Temps: { label: 'Market Prices' },
+                                        Daylight: { label: 'Market Days' }
+                                    }
+                                }
+                            };
+
+
+                            var materialChart = new google.visualization.Histogram(chartDiv);
+                            materialChart.draw(data, materialOptions);
+
+
+                            //var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                            //chart.draw(data, options);
+
+
+                        }
+                    });
+                    // Ending Of DrawChart
+
+                }
+
+            };
+
+            function Buyerandseller() {
+                // Buyer and Seller
+                var obj = {};
+                $.ajax({
+                    url: "/api/GetBuyerandSeller/GetBuyerSeller",
+                    data: obj
+                })
+                .done(function (response) {
+                    var buysell = "";
+                    if (response.value == 1) {
+                        
+                        $.each(response.buyer, function (i, item) {
+                            var j = 0;
+                            j = item.id + 1
+
+                            buysell += "<tr>" +
+
+                                "<td>" + item.categoryValue + "</td>" +
+                                "<td>" + item.product + "</td>" +
+                                "<td>" + item.quantity + "</td>" +
+                                "<td>" + item.unit + "</td>" +
+                                "<td>" + item.price + "</td>" +
+                           "</tr>";
+
+                        })
+                        $("#buyandsell").html(buysell);
+                    }
+                })
+            };
+
+            function ChartsDiagram() {
+                google.charts.load('current', { 'packages': ['corechart', 'line'] });
+                google.charts.setOnLoadCallback(drawChartproduct);
+                google.charts.setOnLoadCallback(drawChart);
+                google.charts.setOnLoadCallback(drawChartPrice);
+
+                function drawChartPrice() {
+
+                    var data = new google.visualization.DataTable();
+                    data.addColumn('number', 'Product Name');
+                    data.addColumn('number', 'Product Price');
+                    data.addColumn('number', 'Quantity');
+                    $.ajax({
+                        type: 'GET',
+                        dataType: 'json',
+                        contentType: 'application/json',
+                        url: '/api/buyerandseller',
+                        data: '{}',
+                        success: function (response) {
+                            $.each(response, function (i, d) {
+                                data.addRow([parseInt(d.price), d.quantity]);  // d.product,
+                            });
+
+                            var options = {
+                                //chart: {
+                                //    title: 'The Buyerand Seller',
+                                //    subtitle: 'The Number of State with buyers and sellers'
+                                //},
+                                //hAxis: {
+                                //    title: 'State'
+                                //},
+                                //vAxis: {
+                                //    title: 'Quantity and Price'
+                                //}
+                            };
+
+                            var chart = new google.charts.Line(document.getElementById('line_buy_sell'));
+
+                            chart.draw(data, google.charts.Line.convertOptions(options));
+
+                        }
+                    });
+
+                }
+
+               
+
+             
+
+
+            };
+
+     
+            function ChartPrice() {
+                 google.charts.load('current', {'packages':['corechart', 'bar']});
+      google.charts.setOnLoadCallback(drawStuff);
+
+      function drawStuff() {
+
+          var button = document.getElementById('change-chart');
+          var chartDiv = document.getElementById('prices');
+
+              var data = new google.visualization.DataTable();
+          data.addColumn('number', 'Product Quantity');
+          data.addColumn('number', 'Product Price');
+          data.addColumn('number', 'Quanti ID');
+          $.ajax({
+              type: 'GET',
+              dataType: 'json',
+              contentType: 'application/json',
+              url: '/api/price',
+              data: '{}',
+              success: function (response) {
+                  $.each(response, function (i, d) {
+                      data.addRow([d.id, parseInt(d.ProductPrice), parseInt(d.productQuantity)]);  // d.product,
+                  });
+
+            var materialOptions = {
+                      width: 900,
+                      chart: {
+                          title: 'Market Prices with Quantity',
+                          subtitle: 'This is HarvestPlus Market Prices with Quantity.'
+                      },
+                      series: {
+                          0: { axis: 'distance' }, // Bind series 0 to an axis named 'distance'.
+                          1: { axis: 'brightness' } // Bind series 1 to an axis named 'brightness'.
+                      },
+                      axes: {
+                          y: {
+                              distance: { label: 'Quantity' }, // Left y-axis.
+                              brightness: { side: 'right', label: 'Prices' } // Right y-axis.
+                          }
+                      }
+                  };
+
+                  var classicOptions = {
+                      width: 900,
+                      series: {
+                          0: { targetAxisIndex: 0 },
+                          1: { targetAxisIndex: 1 }
+                      },
+                      title: 'Nearby galaxies - distance on the left, brightness on the right',
+                      vAxes: {
+                          // Adds titles to each axis.
+                          0: { title: 'Quantity' },
+                          1: { title: 'Prices' }
+                      }
+                  };
+
+                  function drawMaterialChart() {
+                      var materialChart = new google.charts.Bar(chartDiv);
+                      materialChart.draw(data, google.charts.Bar.convertOptions(materialOptions));
+                      button.innerText = 'Change to Classic';
+                      button.onclick = drawClassicChart;
+                  }
+
+                  function drawClassicChart() {
+                      var classicChart = new google.visualization.ColumnChart(chartDiv);
+                      classicChart.draw(data, classicOptions);
+                      button.innerText = 'Change to Material';
+                      button.onclick = drawMaterialChart;
+                  }
+
+                  drawMaterialChart();
+              }
+          });
+      }
+            }
+     
+
+           
+
+
+           
+    </script>
+    }

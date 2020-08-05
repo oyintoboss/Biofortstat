@@ -1,0 +1,161 @@
+﻿ <!-- partial:partials/_sidebar.html -->
+<nav class="sidebar">
+    <div class="sidebar-header">
+        <a href="~/Views/BiofortStat/Index.cshtml" class="sidebar-brand">
+            BioFort<span>Stat</span>
+        </a>
+        <div class="sidebar-toggler not-active">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
+    <div class="sidebar-body">
+        <ul class="nav">
+            <li class="nav-item nav-category">Main</li>
+            <li class="nav-item">
+                <a href="dashboard-one.html" class="nav-link">
+                    <i class="link-icon" data-feather="box"></i>
+                    <span class="link-title">Dashboard</span>
+                </a>
+            </li>
+
+            <li class="nav-item nav-category">Administrator Page</li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false" aria-controls="uiComponents">
+                    <i class="link-icon" data-feather="feather"></i>
+                    <span class="link-title">Market Place</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="uiComponents">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            @Html.ActionLink("Create Market", "CreateMarket", "Market", null, new { @class = "nav-link" })
+
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Market Place", "Index", "Market", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Create Price", "CreatePrice", "Price", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Price List", "Index", "Price", null, new { @class = "nav-link" })
+                        </li>
+
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#advancedUI" role="button" aria-expanded="false" aria-controls="advancedUI">
+                    <i class="link-icon" data-feather="anchor"></i>
+                    <span class="link-title">Product</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="advancedUI">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            @Html.ActionLink("Product List", "Index", "Product", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Crete Product", "UserProduct", "Product", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Category List", "Index", "ProductCategory", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Create Category", "CreateProductCategory", "ProductCategory", null, new { @class = "nav-link" })
+
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            @*<li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#forms" role="button" aria-expanded="false" aria-controls="forms">
+                    <i class="link-icon" data-feather="inbox"></i>
+                    <span class="link-title">IECS Resources</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="forms">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            @Html.ActionLink("Resource Strategies ", "Index", "DistributionRecords", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Create strategies", "CreateDistRecords", "DistributionRecords", null, new { @class = "nav-link" })
+                        </li>
+
+                    </ul>
+
+                </div>
+            </li>*@            
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#tables" role="button" aria-expanded="false" aria-controls="tables">
+                    <i class="link-icon" data-feather="layout"></i>
+                    <span class="link-title">Data Warehouse</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="tables">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            @Html.ActionLink("Distribution List ", "Index", "DistributionRecords", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Create Distribution", "CreateDistRecord", "DistributionRecords", null, new { @class = "nav-link" })
+                        </li>                       
+                    </ul>
+                </div>
+            </li>
+            @*<li class="nav-item">
+                <a href="pages/apps/chat.html" class="nav-link">
+                    <i class="link-icon" data-feather="message-square"></i>
+                    <span class="link-title">Advert Settings</span>
+                </a>
+            </li>*@            
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#uiComponents" role="button" aria-expanded="false" aria-controls="uiComponents">                    
+                    <i class="link-icon" data-feather="book"></i>
+                    <span class="link-title">Buyer~Seller</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="uiComponents">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            @Html.ActionLink("Create Buyer~Seller", "CreateBuyerAndSeller", "BuyerandSeller", null, new { @class = "nav-link" })
+
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("List", "BuyerandSellerList", "BuyerandSeller", null, new { @class = "nav-link" })
+                        </li>                      
+                    </ul>
+                </div>
+            </li>           
+            @*<li class="nav-item">
+                <a href="pages/apps/chat.html" class="nav-link">
+                    <i class="link-icon" data-feather="message-square"></i>
+                    <span class="link-title">Data Migration</span>
+                </a>
+            </li>*@
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#tables" role="button" aria-expanded="false" aria-controls="tables">
+                    <i class="link-icon" data-feather="trash"></i>
+                    <span class="link-title">Profile Setup</span>
+                    <i class="link-arrow" data-feather="chevron-down"></i>
+                </a>
+                <div class="collapse" id="tables">
+                    <ul class="nav sub-menu">
+                        <li class="nav-item">
+                            @Html.ActionLink("Setup User", "CreateUser", "UserInfo", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("User List", "Index", "UserInfo", null, new { @class = "nav-link" })
+                        </li>
+                        <li class="nav-item">
+                            @Html.ActionLink("Vendor List", "VendorList", "UserInfo", null, new { @class = "nav-link" })
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            
+</div>
+    </nav>

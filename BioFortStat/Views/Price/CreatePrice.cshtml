@@ -1,0 +1,147 @@
+﻿
+@{
+    ViewBag.Title = "CreatePrice";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<h2>Setup New Price</h2>
+<form id="newPrice">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Market Name</label>
+                <div class="tt-container">
+                    <select id="mname" class="tt-container ">
+                       
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Name</label>
+                <div class="tt-container">
+                    <select id="pname" class="tt-container mproduct">
+                       
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Product Unit</label>
+                <div class="tt-container" >
+                    <select id="punit" class="tt-container">
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Quantity</label>
+                <div class="tt-container">
+                    <input id="pquan" type="number" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Price</label>
+                <div class="tt-container">
+                    <input id="pprice" type="text" class="form-control" />
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" id="sap">
+                        Same as Previous
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Picked Date</label>
+                <div class="tt-container">
+                    <input id="pdate" class="form-control" type="date">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align:center">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+                       
+            var obj = {};
+            $.ajax({
+                url: "/api/GetMarketName_ProdName_Unit/GetMarketNameProdNameUnit",
+                data: obj
+            })
+           .done(function (response) {               
+               var marketname, productz, unit = "";
+               if (response.value == 1) {
+
+                   productz = "<option value=\"0\">--Choose ProductName--</option>";
+                   $.each(response.prodName, function (i, item) {
+                       productz += "<option value=" + item.productName + ">" + item.productName + "</option>";
+                   })
+                   $(".mproduct").html(productz);
+
+                   marketname = "<option value=\"0\">--Select MarketName--</option>";
+                   $.each(response.marketName, function (i, item) {
+                       marketname += "<option value=" + item.marketName + ">" + item.marketName + "</option>";
+                   })
+                   $("#mname").html(marketname);
+
+                   unit = "<option value=\"0\">--Choose Unit--</option>";
+                   $.each(response.unit, function (i, item) {
+                       unit += "<option value=" + item.unitName + ">" + item.unitName + "</option>";
+                   })
+                   $("#punit").html(unit);
+               }
+           })
+
+            $("#newPrice").submit(function (e) {
+                e.preventDefault();
+            let MarketName = $("#mname").val();
+            let ProductName = $("#pname").val();
+            let ProductQuantity = $("#pquan").val();
+            let ProductUnit = $("#punit").val();
+            let ProductPrice = $("#pprice").val();
+            let PickedDate = $("#pdate").val();
+            let Previous = $("#sap").is(":checked");                 
+           
+            var obj = {};
+            obj.MarketName = MarketName;
+            obj.ProductName = ProductName;
+            obj.ProductQuantity = ProductQuantity;
+            obj.ProductPrice = ProductPrice;
+            obj.Unit = ProductUnit;
+            obj.PickedDate = PickedDate;
+            obj.SameasPrevious = Previous;
+
+            $.ajax({
+                url: "/api/price",
+                method: "post",
+                data: obj,
+                
+            })
+               .done(function (response) {
+                   console.log("Done");
+                   alert(response.msg);
+               })
+            });
+        });
+    </script>
+}
+

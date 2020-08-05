@@ -1,0 +1,130 @@
+﻿@model IEnumerable<BioFortStat.Models.DistributionRecords>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+
+<nav class="page-breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Distribution</li>
+    </ol>
+</nav>
+<div class="row">
+    <div class="col-md-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-title">Distribution List</h6>
+                <!-- Addition of New Buyer and Seller Button-->
+                <div class="form-group">
+
+                    @Html.ActionLink("Add Distribution", "New", "DistributionRecords", null, new { @class = "btn btn-danger" })
+
+                </div>
+                <!--The End of the Addition of New Buyer and Seller-->
+                <div class="table-responsive">
+                    <table id="distrec" class="table">
+                        <thead>
+                            <tr>
+                               
+                                <th>Edit</th>
+                                <th>Delete</th>
+                                <th>Crop Type</th>
+                                <th>Indicator</th>
+                                <th>Year</th>
+                                <th>State</th>
+                                <th>Value</th>
+                                <th>Created User</th>
+                                <th>Created Date</th>
+                                
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#distrec").DataTable({
+                ajax: {
+                    url: "/api/distributionrecords",
+                    dataSrc: ""
+                },
+                columns: [
+                     {
+                         data: "id",
+                         render: function (data, type, edituser) {
+                             return "<button class='btn btn-primary nav-link js-edit' data-user-id=" + data + "> Edit </button>";
+                         }
+                     },
+
+                  {
+                      data: "id",
+                      render: function (data, type, deluser) {
+                          return "<button class='btn btn-info nav-link js-delete' data-user-id=" + data + "> Delete </button>";
+                      }
+                  },
+                    {
+                        data: "crop"
+                    },
+                    {
+                        data: "indicator"
+                    },
+                    {
+                        data: "year"
+                    },
+                    {
+                        data: "state"
+                    },
+                    {
+                        data: "value"
+                    },
+                    {
+                        data: "createdUser"
+                    },
+                    {
+                        data: "createdDate"
+                    }
+                ]
+            });
+
+            $("#distrec ").on("click", ".js-delete", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/distributionrecords/" + button.attr("data-user-id"),
+                    method: "DELETE",
+                    success: function () {
+                        table.row(button.parents("tr")).remove().draw();
+                        button.parents("tr").remove();
+                    }
+                });
+            });
+
+            $("#distrec ").on("click", ".js-edit", function () {
+                var button = $(this);
+
+                $.ajax({
+                    url: "/api/distributionrecords/" + button.attr("data-user-id"),
+                    method: "PUT",
+                    success: function () {
+                        window.location = "/distributionrecords/createdistrecord";
+                       
+                    }
+                });
+            });
+
+
+        });
+    </script>
+}
+
+
+
+

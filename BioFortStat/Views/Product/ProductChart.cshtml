@@ -1,0 +1,172 @@
+﻿
+@{
+    ViewBag.Title = "ProductChart";
+}
+
+<h2>ProductChart</h2>
+
+<html>
+<head>
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', { 'packages':['corechart', 'line'] });
+        google.charts.setOnLoadCallback(drawChartmarket);
+      google.charts.setOnLoadCallback(drawChart);   
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'ProductName');
+      data.addColumn('number', 'ProductQuantity');
+      data.addColumn('string', 'ProductPrice');
+
+      $.ajax({
+          type: 'GET',
+          dataType: 'json',
+          contentType: 'application/json',
+          url: '/api/product',
+          data: '{}',
+          success: function (response) {
+              $.each(response, function (i, d) {
+                  data.addRow([d.productName, d.productQuantity, d.productPrice]);
+              });
+
+              var options = {
+                  chart: {
+                      title: 'The Product Of Goods Reached',
+                      subtitle: 'in millions of dollars (USD)'
+                  },
+                  width: 900,
+                  height: 800,
+                  axes: {
+                      x: {
+                          0: { side: 'top' }
+                      }
+                  }
+              };
+
+              var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+              chart.draw(data, google.charts.Line.convertOptions(options));
+
+          }
+      });
+           
+    }
+    function drawChartmarket() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Product Unit');
+        data.addColumn('number', 'Product Quantity');
+
+        $.ajax({
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            url: '/api/buyerandseller',
+            data: '{}',
+            success: function (response) {
+                $.each(response, function (i, d) {
+                    data.addRow([d.unit, d.quantity]);
+                });
+
+                var options = {
+                    'title': 'The Buyers and Sellers with Unit and Quantity',
+                    'width': 900,
+                    'height': 800
+                    //,
+                    //hAxis: {
+                    //    title: 'Prices'
+                    //},
+                    //vAxis: {
+                    //    title: 'Quantity'
+                    //}
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                chart.draw(data, options);
+
+                
+            }
+        });
+
+        //data.addRows([
+        //  ['Mushrooms', 3],
+        //  ['Onions', 1],
+        //  ['Olives', 1],
+        //  ['Zucchini', 1],
+        //  ['Pepperoni', 2]
+        //]);
+
+        // Set chart options
+
+
+        // Instantiate and draw our chart, passing in some options.
+    }
+    </script>
+</head>
+<body>
+    <style>
+        .item {
+            /*background: #333;*/
+            /*text-align: center;*/
+            height: 800px;
+        }
+
+        /*h2 {
+            margin: 0;
+            color: #888;
+            padding-top: 80px;
+            font-size: 30px;
+        }*/
+    </style>
+
+    @*<table>
+        <tr>
+            <td> <div id="line_top_x"></div></td>
+            <td><div id="chart_div"></div></td>
+        </tr>
+    </table>*@
+
+   
+  
+        <div class="thumbnail">
+            <div id="DemoCarousel" class="carousel slide" data-interval="2000" data-ride="carousel">
+
+                <ol class="carousel-indicators">
+                    <li data-target="#DemoCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#DemoCarousel" data-slide-to="1"></li>
+                    
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item active">
+                        @*<h2>Slide 1</h2>*@
+                        <div class="carousel-caption">
+                            @*<h3>This is the First Label</h3>*@
+                            <p id="line_top_x"></p>
+                        </div>
+                    </div>
+                    <div class="item">
+                        @*<h2>Slide 2</h2>*@
+                        <div class="carousel-caption">
+                            @*<h3>This is the Second Label</h3>*@
+                            <p id="chart_div"></p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <a class="carousel-control left" href="#DemoCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                </a>
+                <a class="carousel-control right" href="#DemoCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                </a>
+            </div>
+        </div>
+
+
+    </body>
+</html>
+

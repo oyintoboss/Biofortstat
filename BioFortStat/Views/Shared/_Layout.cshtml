@@ -1,0 +1,140 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("SHOPPING", "Index", "BiofortStat", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("MARKETING PRICES", "Index", "BiofortStat")</li>
+                   
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <nav class="navbar navbar-default navbar-fixed">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="~/Views/BiofortStat/Index.cshtml" style="color:royalblue">Biofort<span style="color:forestgreen">STAT</span></a>
+                </div>
+
+
+
+
+                @*<li>@Html.ActionLink("User Register", "CreateUser", "UserInfo")</li>
+                    <li>@Html.ActionLink("Role", "Create", "Role")</li>*@
+
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("SHOPPING", "Index", "BiofortStat", new { area = "" }, new { @class = "navbar-brand" , styles = "color: forestgreen;" })</li>                    
+                    <li>@Html.ActionLink("Who we Are", "About", "Home")</li>
+                    <li>@Html.ActionLink("Market Data", "Index", "MarketData")</li>
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#">Explore <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Shop</a></li>
+                            <li><a href="#">Resources</a></li>
+                            <li><a href="#">Products Trends</a></li>
+                            <li><a href="#">National Demographics</a></li>
+                        </ul>
+                    </li>
+                    <li>@Html.ActionLink("Contact Us", "Contact", "Home")</li>
+
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="container body-content" >
+        @RenderBody()
+    </div>
+    <div class="container-fluid" style="background-color:black; margin: 20px;">
+        <footer>
+            <div class="row">
+                <div class="col-sm-12" style="margin-top: 70px;margin-bottom: 40px;">
+                    <div class="col-sm-2">
+                        <img src="~/FooterImage/ukaid.png" />
+
+                    </div>
+                    <div class="col-sm-2">
+                        <img src="~/FooterImage/iita.png" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="~/FooterImage/nestle.png" />
+                    </div>
+                    <div class="col-sm-3">
+                        <img src="~/FooterImage/gain.png" />
+                    </div>
+                    <div class="col-sm-2">
+                        <img src="~/FooterImage/unicef.png" />
+                    </div>
+                </div>
+
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="col-sm-3">
+                        <h2 style="text-align:center">About Us</h2>
+                        <p>
+                            HarvestPlus improves nutrition and public health by developing
+                            and promoting biofortified food crops that are rich in vitamins and minerals and providing
+                            global leadership on biofortified evidence and technology.
+                        </p>
+                    </div>
+                    <div class="col-sm-3">
+                        <h3>Useful links</h3>
+                        <p>Statistics</p>
+                        <p style="color:forestgreen">Country Demo</p>
+                        <p>Resources &amp; ICEs</p>
+                        <p>Our Partner</p>
+                        <p>Market Prices</p>
+                        <p>Seller Portal</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <h3>Contact Info</h3>
+
+                        <p style="color:forestgreen">Location</p>
+                        <p>Idi-Ose, Moniya, Ibadan</p>
+                        <p>Oyo State, NIGERIA</p>
+                        <p style="color:forestgreen">Telephone</p>
+                        <p>+234 703939 0279</p>
+                        <p>+44 208 711 3786</p>
+                        <p style="color:forestgreen">Email: </p>
+                        <p>info@havestplusng.org</p>
+                    </div>
+                    <div class="col-sm-3">
+                        <h2>BiofortStat</h2>
+                        <p>Subscribe Us!</p>
+                        <p>
+                            <input type="text" name="harvestplus" placeholder="Drop Your Email" />
+                            <input type="button" class="btn btn-success" />
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <p> All right reserved  &copy; @DateTime.Now.Year - Trust &amp; Security Privacy Policy  Sitemap</p>
+        </footer>
+
+    </div>
+    @Scripts.Render("~/bundles/lib")
+   
+    @RenderSection("scripts", required: false)
+</body>
+</html>

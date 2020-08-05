@@ -1,0 +1,420 @@
+﻿@model BioFortStat.ViewModel.BuyerandProductViewModel
+@{
+    ViewBag.Title = "Index";
+
+}
+
+<style>
+    div.new_html_code {
+        width: 950px;
+        height: 100px;
+        min-width: 650px;
+        min-height: 50px;
+        max-width: 900px;
+        max-height: 50px;
+        overflow: hidden;
+        display: block;
+    }
+
+    div.new_Chartz {
+        width: 650px;
+        height: 600px;
+        min-width: 450px;
+        min-height: 500px;
+        max-width: 650px;
+        max-height: 500px;
+        overflow: hidden;
+        display: block;
+    }
+
+    div.diagramz {
+        height: 300px;
+        overflow: hidden;
+        display: block;
+        padding-left: 50px;
+    }
+
+    p > span {
+        margin: 20px;
+        padding: 10px;
+        background-color: royalblue;
+        color: deeppink;
+    }
+</style>
+<div class="container">
+
+
+    <div class="col-sm-8">
+        
+        <div class="col-sm-12">
+           
+      <div id="DemoCarousel" class="carousel slide" data-interval="2000" data-ride="carousel">
+
+        <ol class="carousel-indicators">
+            <li data-target="#DemoCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#DemoCarousel" data-slide-to="1"></li>
+            <li data-target="#DemoCarousel" data-slide-to="2"></li>
+            <li data-target="#DemoCarousel" data-slide-to="3"></li>
+            <li data-target="#DemoCarousel" data-slide-to="4"></li>
+            <li data-target="#DemoCarousel" data-slide-to="5"></li>
+
+        </ol>
+        <div class="carousel-inner" role="listbox">
+            <div class="item active">
+
+                    <div class="new_Chartz">
+                <div id="line_top_x" ></div>
+    </div>
+            </div>  
+            <div class="item ">
+                <div class="new_Chartz">
+                    <div id="line_top_sec" style="width: 1000px; height: 900px;" ></div>
+                </div>
+            </div>
+            <div class="item ">
+    <div class="new_Chartz">
+                    <div id="chart_div" ></div>
+            </div>
+                 </div>
+            
+        </div>
+       <!-- Left and right controls -->
+                <a class=" carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class=" carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+    </div></div>
+    </div>
+
+
+    <div class="col-sm-4">
+        <div class="row">
+
+            <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <!-- Indicators -->
+                <ol class="carousel-indicators">
+                    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                    <li data-target="#myCarousel" data-slide-to="1"></li>
+                    <li data-target="#myCarousel" data-slide-to="2"></li>
+                    <li data-target="#myCarousel" data-slide-to="3"></li>
+                    <li data-target="#myCarousel" data-slide-to="4"></li>
+                    <li data-target="#myCarousel" data-slide-to="5"></li>
+                    <li data-target="#myCarousel" data-slide-to="6"></li>
+                </ol>
+
+
+
+                <div class="carousel-inner" role="listbox">
+                    @{
+                        int i = 0;
+                    }
+                    @foreach (var item in Model.Productz)
+                    {
+                        i++;
+                        var active = i == 1 ? "active" : "";
+                        <div class="item carousel-item @active">
+                            <img src="@Url.Content(item.ProductPicture)" alt="@item.ProductName" width="200" height="260">
+                        </div>
+                    }
+                </div>
+                <!-- Left and right controls -->
+                <a class=" carousel-control" href="#myCarousel" data-slide="prev">
+                    <span class="glyphicon glyphicon-chevron-left"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class=" carousel-control" href="#myCarousel" data-slide="next">
+                    <span class="glyphicon glyphicon-chevron-right"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-8 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Buyers And Sellers</h4>
+                        <p class="card-description">Products Prices</p>
+                        <div class="table-responsive" style="height: 200px; width: 450px; overflow: auto; overflow-x: hidden;">
+                            <table class="table table-hover" id="buyandsellz" style="height: 340px;">
+                                <thead>
+                                    <tr>
+                                        <th>Category</th>
+                                        <th>Product</th>
+                                        <th>Qty.</th>
+                                        <th>Unit</th>
+                                        <th>Prices</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="buyandsell" class="tableheight"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col-sm-12">
+        <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+            <!-- Indicators -->
+            <ol class="carousel-indicators">
+                <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#myCarousel" data-slide-to="1"></li>
+                <li data-target="#myCarousel" data-slide-to="2"></li>
+                <li data-target="#myCarousel" data-slide-to="3"></li>
+                <li data-target="#myCarousel" data-slide-to="4"></li>
+                <li data-target="#myCarousel" data-slide-to="5"></li>
+                <li data-target="#myCarousel" data-slide-to="6"></li>
+            </ol>
+
+            <div class="carousel-inner" role="listbox">
+                @{
+                    int c = 0;
+                }
+                @foreach (var item in Model.BuyersandSellers)
+                {
+                    c++;
+                    var active = c == 1 ? "active" : "";
+                    <div class="item @active">
+                        <div class="new_html_code">
+                            <p><span>Category : @item.CategoryValue</span><span>Product : @item.Product</span><span>Quantity : @item.Quantity</span><span>Product-Unit: @item.Unit</span><span>Price : @item.Price</span></p>
+                        </div>
+                    </div>
+                }
+
+            </div>
+            <!-- Left and right controls -->
+            <a class=" carousel-control" href="#myCarousel" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class=" carousel-control" href="#myCarousel" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col-sm-12">
+        <div class="col-sm-4" style="height: 340px;">
+            <a class="twitter-timeline" data-width="500" data-height="400" data-theme="light" href="https://twitter.com/HarvestPlus?ref_src=twsrc%5Etfw">Tweets by HarvestPlus</a>
+        </div>
+        <div class="col-sm-4" style="height: 340px;">
+
+
+            <div class="fb-page" data-href="https://www.facebook.com/HarvestPlus.Nigeria/"
+                 data-tabs="timeline" data-width="340" data-height="450" data-small-header="false"
+                 data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true">
+                <blockquote cite="https://www.facebook.com/HarvestPlus.Nigeria/" class="fb-xfbml-parse-ignore">
+                    <a href="https://www.facebook.com/HarvestPlus.Nigeria/">HarvestPlus</a>
+                </blockquote>
+            </div>
+        </div>
+        <div class="col-sm-4" style="height: 340px;">
+            <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FHarvestPlus.Nigeria%2Fhttps%3A%2F%2Fwww.facebook.com%2Fpg%2FHarvestPlus.Nigeria%2Fphotos%2F%3Ftab%3Dalbum%26album_id%3D165417163664461%26ref%3Dpage_internal&tabs=timeline&width=340&height=450&small_header=true&adapt_container_width=true&hide_cover=true&show_facepile=true&appId=256536972207356"
+                    width="340" height="450"
+                    style="border:none;overflow:hidden" scrolling="no" frameborder="0"
+                    allowTransparency="true" allow="encrypted-media"></iframe>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts{
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+            src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v7.0&appId=256536972207356&autoLogAppEvents=1">
+    </script>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            ChartsDiagram();
+            BuyerandSeller();
+
+            //$(".tableheight tr:odd ").fadeOut(1000, "swing", function () {
+            //    alert("Table finished fading Out !!");
+            //});
+        });
+
+      
+        function BuyerandSeller() {
+            // Buyer and Seller
+            var obj = {};
+            $.ajax({
+                url: "/api/GetBuyerandSeller/GetBuyerSeller",
+                data: obj
+            })
+            .done(function (response) {
+                var buysell, carouselbuysell = "";
+                if (response.value == 1) {
+
+                    $.each(response.buyer, function (i, item) {
+                        var j = 0;
+                        j = item.id + 1;
+
+                        buysell += "<tr>" +
+                            "<td>" + item.categoryValue + "</td>" +
+                            "<td>" + item.product + "</td>" +
+                            "<td>" + item.quantity + "</td>" +
+                            "<td>" + item.unit + "</td>" +
+                            "<td>" + item.price + "</td>" +
+                       "</tr>";
+
+                    })
+                    $("#buyandsell").html(buysell);
+
+                    // carouselbuysell += <div class="new_html_code">
+                    //  Removing
+                    //</div> ;
+
+                }
+            })
+        };
+
+        function ChartsDiagram() {
+            google.charts.load('current', { 'packages': ['corechart', 'line'] });
+            google.charts.setOnLoadCallback(drawChartproduct);
+            google.charts.setOnLoadCallback(drawChart);
+           
+            google.charts.setOnLoadCallback(secondline);
+
+
+            function secondline() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'State');
+                data.addColumn('number', 'Prices');
+                data.addColumn('number', 'Prod. Quan');
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '/api/product',
+                    data: '{}',
+                    success: function (response) {
+                        $.each(response, function (i, d) {
+                            data.addRow([d.state, parseInt(d.productPrice), d.productQuantity]); // 
+                        });
+
+                        var options = {
+                            chart: {
+                                title: 'The Product Sizes',
+                                subtitle: 'The Number of Prices per state and Product'
+                            },
+                            hAxis: {
+                                title: 'Crops'
+                            },
+                            vAxis: {
+                                title: 'Values and Year'
+                            }
+                        };
+
+                        var chart = new google.charts.Line(document.getElementById('line_top_sec'));
+
+                        chart.draw(data, google.charts.Line.convertOptions(options));
+
+                    }
+                });
+            }
+
+           
+
+            function drawChart() {
+
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'Crop');
+                data.addColumn('number', 'Value');
+                data.addColumn('number', 'Year');
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '/api/distributionrecords',
+                    data: '{}',
+                    success: function (response) {
+                        $.each(response, function (i, d) {
+                            data.addRow([d.crop, d.value, d.year]);
+                        });
+
+                        var options = {
+                            chart: {
+                                title: 'The Household Reached Of Goods Reached',
+                                subtitle: 'The Number of Crop with Values'
+                            },
+                            hAxis: {
+                                title: 'Crops'
+                            },
+                            vAxis: {
+                                title: 'Values and Year'
+                            }
+                        };
+
+                        var chart = new google.charts.Line(document.getElementById('line_top_x'));
+
+                        chart.draw(data, google.charts.Line.convertOptions(options));
+
+                    }
+                });
+
+            }
+            function drawChartproduct() {
+
+                // Create the data table.
+                var data = new google.visualization.DataTable();
+                data.addColumn('string', 'State');
+                data.addColumn('number', 'Product Quantity');
+                data.addColumn('number', 'Price');
+
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    url: '/api/buyerandseller',
+                    data: '{}',
+                    success: function (response) {
+                        $.each(response, function (i, d) {
+                            data.addRow([d.state, d.quantity, parseInt(d.price)]);
+                        });
+
+                        var options = {
+                            'title': 'The Buyers and Sellers with Unit and Quantity',
+
+                            hAxis: {
+                                title: 'Prices'
+                            },
+                            vAxis: {
+                                title: 'Quantity'
+                            }
+                        };
+
+                        //var chart = new google.charts.Line(document.getElementById('chart_div'));
+
+                        //chart.draw(data, google.charts.Line.convertOptions(options));
+
+                        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                        chart.draw(data, options);
+
+
+                    }
+                });
+
+
+            }
+
+
+        };
+    </script>
+}
+

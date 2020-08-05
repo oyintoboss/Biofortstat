@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "CreateProductCategory";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<h2>CreateProductCategory</h2>
+<div class="container">
+    <form id="newProdCate">
+        <div class="col-sm-8">
+            <div class="form-group">
+                <label>Product Name</label>
+                <select id="pname">
+                    @*<option value="0">--Choose Product--</option>
+                    <option value="1">Yam</option>
+                    <option value="2">Cassava</option>
+                    <option value="3">Bread</option>*@
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Product Category</label>
+                <input type="text" id="pcate" />
+            </div>
+        </div>
+        <div style="text-align:center">
+            <button class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {            
+            var obj = {};
+            $.ajax({
+                url: "/api/ProductName/GetProductName",
+                data: obj
+            })
+           .done(function (response) {
+               var productNamez = "";
+               if (response.value == 1) {
+                   productNamez = "<option value=\"0\">--Choose ProductName--</option>";
+                   $.each(response.prodName, function (i, item) {
+                       productNamez += "<option value=" + item.productName + ">" + item.productName + "</option>";
+                   })
+                   $("#pname").html(productNamez);
+               }
+           })
+
+            $("#newProdCate").submit(function (e) {
+                e.preventDefault();
+                let ProductName = $("#pname").val();
+                let ProductCategory = $("#pcate").val();
+
+                var obj = {};
+                obj.ProductName = ProductName;
+                obj.CategoryName = ProductCategory;
+
+                $.ajax({
+                    url: "/api/productcategory",
+                    method: "post",
+                    data: obj                    
+                })
+               .done(function (response) {
+                   if (response.value == 1) {
+                       console.log("Done");
+                       alert(response.msg);
+                   }                  
+               })
+            });
+        });
+    </script>
+    }
+

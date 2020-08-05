@@ -1,0 +1,194 @@
+﻿@{
+    ViewBag.Title = "CreateUser";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+
+<form id="newUser">
+    <h2>Provide Basic Information Below</h2>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Title</label>
+                <div class="tt-container">
+                    <select id="title" required>
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label> FirstName</label>
+                <div class="tt-container">
+                    <input id="fname" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>LastName</label>
+                <div class="tt-container">
+                    <input id="lname" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>MiddleName</label>
+                <div class="tt-container">
+                    <input id="mname" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="row">
+       
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Gender</label>
+                <div class="tt-container"  >
+                    <select id="gender"  required>
+                       
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>State</label>
+                <div class="tt-container">
+                    <select class="tt-container" id="state" required>
+                       
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Mobile No.: </label>
+                <div class="tt-container">
+                    <input id="mobile" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>LGA/Village </label>
+                <div class="tt-container">
+                    <input id="lga" type="text" value="" required class="form-control" />
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>Profile Picture</label>
+                    <div class="tt-container">
+                        <input id="profilep" type="file" required value=""  />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="form-group">
+                    <label>ZipCode</label>
+                    <div class="tt-container">
+                        <input id="zipcode" type="text" required value="" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+   
+
+    <div class="form-group" style="text-align:center">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section scripts{
+    @*@Scripts.Render("~/bundles/jqueryval")*@
+    <script>
+        $(document).ready(function () {
+            // GetState_Gender_Title
+            var obj = {};
+            $.ajax({
+                url: "/api/Get_State_Gender_Title/GetStateGenderTitle",
+                data: obj
+            })
+            .done(function (response) {
+                var statez, titlez, genderz = "";
+                if (response.value == 1) {
+                    
+                    titlez = "<option value=\"0\">--Pick Title--</option>";
+                    $.each(response.title, function (i, item) {
+                        titlez += "<option value=" + item.titleName + ">" + item.titleName + "</option>";
+                    })
+                    $("#title").html(titlez);
+
+                    statez = "<option value=\"0\">--Select State--</option>";
+                    $.each(response.state, function (i, item) {
+                        statez += "<option value=" + item.stateName + ">" + item.stateName + "</option>";
+                    })
+                    $("#state").html(statez);
+
+                    genderz = "<option value=\"0\">--Select Pick Gender--</option>";
+                    $.each(response.gender, function (i, item) {
+                        genderz += "<option value=" + item.genderName + ">" + item.genderName + "</option>";
+                    })
+                    $("#gender").html(genderz);
+                }
+            })
+
+
+            $("#newUser").submit(function (e) {
+                e.preventDefault();
+                let title = $("#title :selected").val();
+                let firstname = $("#fname").val();
+                let lastname = $("#lname").val();
+                let middlename = $("#mname").val();
+                let gender = $("#gender :selected").val();
+                let state = $("#state :selected").val();
+                let Phone = $("#mobile").val();
+                let LGA = $("#lga").val();                
+                let zipcode = $("#zipcode").val();
+                let ProfileP = $("#profilep").val();
+                                
+                var obj = {};
+                obj.Title = title;
+                obj.FirstName = firstname;
+                obj.LastName = lastname;
+                obj.MiddleName = middlename;
+                obj.Gender = gender;
+                obj.Mobile = Phone;
+                obj.State = state;
+                obj.LGA = LGA;                
+                obj.ZipCode = zipcode;
+                obj.Passport = ProfileP;
+                
+                $.ajax({
+                    url: "/api/userinfo",
+                    method: "post",
+                    data: obj
+                })
+                .done(function () {
+                    window.location = "/Account/Login";
+                 //   console.log("User Successful");
+                })
+                .fail(function () {
+                    console.log("User Not Successful");
+                })
+            });
+        });
+    </script>
+    }
+

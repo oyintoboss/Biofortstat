@@ -1,0 +1,266 @@
+﻿
+@{
+    ViewBag.Title = "CreateBuyerAndSeller";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<h2 style="text-align:center">CreateBuyerAndSeller</h2>
+<form id="newProduct">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">                               
+                <label>Category Value</label>
+                <div class="tt-container">
+                    <select id="cvalue">
+                       
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Product Name</label>
+                <div class="tt-container">
+                    <input id="pname" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Quantity </label>
+                <div class="tt-container">
+                    <input id="pquan" required type="number" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Unit</label>
+                <div class="tt-container" required>
+                    <select id="punit">
+                       
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Price </label>
+                <div class="tt-container">
+                    <input id="pprice" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Date Availability</label>
+                <div class="tt-container" required>
+                    <input id="pda" required type="date" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>State</label>
+                <div class="tt-container">
+                    <select class="tt-container" id="state" required>
+
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>LGA </label>
+                <div class="tt-container">
+                    <select class="tt-container" id="lga" required>
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Village</label>
+                <div class="tt-container">
+                    <input id="village" type="text" value="" required class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label> Negotiable </label>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="unitz" id="yesunits" value="Pos" checked="">
+                        Yes
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label class="form-check-label">
+                        <input type="radio" class="form-check-input" name="unitz" id="nounits" value="Neg">
+                        No
+                    </label>
+                </div>                         
+            </div>
+            
+        </div>
+    </div>
+    @*<div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Profile Picture: </label>
+                <input type="file" id="UploadPica" />
+                <input id="btnUploadFile" type="submit" value="Upload File" />
+            </div>
+        </div>
+        @*<div class="col-sm-6">
+            <div class="form-group">
+                <label>Zip Code </label>
+                <div class="tt-container">
+                    <input id="zcode" type="text" value="" required class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>*@
+
+    <div style="text-align:center">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {   
+            GetDataz();
+            //uploadPicz();
+
+            setTimeout(submitBuyerandSeller(), 30000);
+            
+            
+        });
+
+        function GetDataz() {
+            var obj1 = {};
+            $.ajax({
+                url: "/api/GetCategory_Unit_Lga_State/GetCategoryUnitLgaState",
+                data: obj1
+            })
+               .done(function (response) {
+                   var statez, unitz, categoryz, lgaz = "";
+                   if (response.value == 1) {
+
+                       unitz = "<option value=\"0\">--Choose Unit--</option>";
+                       $.each(response.unit, function (i, item) {
+                           unitz += "<option value=" + item.unitName + ">" + item.unitName + "</option>";
+                       })
+                       $("#punit").html(unitz);
+
+                       statez = "<option value=\"0\">--Select State--</option>";
+                       $.each(response.state, function (i, item) {
+                           statez += "<option value=" + item.stateName + ">" + item.stateName + "</option>";
+                       })
+                       $("#state").html(statez);
+
+                       categoryz = "<option value=\"0\">--Pick Product Category--</option>";
+                       $.each(response.category, function (i, item) {
+                           categoryz += "<option value=" + item.categoryName + ">" + item.categoryName + "</option>";
+                       })
+                       $("#cvalue").html(categoryz);
+
+                       lgaz = "<option value=\"0\">--Choose LGA--</option>";
+                       $.each(response.lga, function (i, item) {
+                           lgaz += "<option value=" + item.lgaName + ">" + item.lgaName + "</option>";
+                       })
+                       $("#lga").html(lgaz);
+                   }
+               })
+        };
+
+        
+
+        //function uploadPicz() {
+        //    $("#btnUploadFile").on('click', function () {
+        //        var data = new FormData();
+        //        var files = $("#UploadPica").get(0).files;
+
+        //        // Add the uploaded image content to the form data collection
+        //        if (files.length > 0) {
+        //            data.append("UploadedImage", files[0]);
+        //        }
+
+        //        // Make Ajax request with the contentType = false, and procesDate = false
+        //        var ajaxRequest = $.ajax({
+        //            type: "POST",
+        //            url: "/api/fileupload/uploadbuyerandseller",
+        //            contentType: false,
+        //            processData: false,
+        //            data: data
+        //        });
+
+        //        ajaxRequest.done(function (xhr, textStatus) {
+        //            console.log("Done");
+        //            // Do other operation
+        //        });
+        //        ajaxRequest.fail(function (xhr, textStatus) {
+        //            console.log("Done");
+        //        });
+        //    });
+        //};
+       
+        function submitBuyerandSeller() {
+            $(document).submit(function (e) {
+                e.preventDefault();
+                let CategoryValue = $("#cvalue :selected").val();
+                let ProductName = $("#pname").val();
+                let Quantity = $("#pquan").val();
+                let Unit = $("#punit :selected").val();
+                let Availability = $("#pda").val();
+                let Price = $("#pprice").val();
+                let Village = $("#village").val();
+                let LGAValue = $("#lga :selected").val();
+                let State = $("#state :selected").val();
+                let Negotiable = $(".nounit").is(":checked");
+               // let ProfilePicture = $("#UploadPica").val();
+                //let ZipCode = $("#zcode").val();
+
+                var obj = {};
+                obj.CategoryValue = CategoryValue;
+                obj.Product = ProductName;
+                obj.Quantity = Quantity;
+                obj.Unit = Unit;
+                obj.Availability = Availability;
+                obj.Price = Price;
+                obj.Village = Village;
+                obj.LGAValue = LGAValue;
+                obj.State = State;
+                obj.Negotiable = Negotiable;
+               // obj.ProfilePicture = ProfilePicture;
+                //obj.ZipCode = ZipCode;
+
+                $.ajax({
+                    url: "/api/buyerandseller",
+                    method: "post",
+                    data: obj
+                })
+                    .done(function (response) {
+                        alert(response.msg);
+                    })
+
+            });
+        };
+        
+    
+    </script>
+    }
+

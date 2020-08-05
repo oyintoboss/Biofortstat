@@ -1,0 +1,203 @@
+﻿
+@{
+    ViewBag.Title = "CreateProduct";
+    Layout = "~/Views/Shared/StaffLayout.cshtml";
+}
+
+<h2>Register New Product</h2>
+<form id="newProduct">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Upload Picture: </label>
+                <input type="file" multiple id="UploadPica" name="product"/>
+                <input id="btnUploadFile" type="button" value="Upload File" />
+            </div>
+        </div>
+        @*<div class="col-sm-6">
+                <div class="form-group">
+                    <label>Zip Code </label>
+                    <div class="tt-container">
+                        <input id="zcode" type="text" value="" required class="form-control" />
+                    </div>
+                </div>
+            </div>*@
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Product Name</label>
+                <div class="tt-container">
+                    <input id="pname" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+
+                <label>Product Price</label>
+                <div class="tt-container">
+                    <input id="pprice" required type="text" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Quantity </label>
+                <div class="tt-container">
+                    <input id="pquan" required type="number" value="" class="form-control" />
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>Product Unit</label>
+                <div class="tt-container"  required>
+                    <select id="punit">
+       
+                     </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>State</label>
+                <div class="tt-container">
+                    <select class="tt-container" id="state" required>
+                        
+                        
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="form-group">
+                <label>LGA </label>
+                <div class="tt-container">
+                    <input id="lga" type="text" value="" required class="form-control" />
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    <div style="text-align:center">
+        <button class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            UploadProduct();
+            GetUnitandState();
+            postproductz();
+        });
+
+        function GetUnitandState() {
+            // GetUnitandstate
+            var obj = {};
+            $.ajax({
+                url: "/api/retrievedata/GetUnitandstate",
+                data: obj
+            })
+            .done(function (response) {
+                var statez, unitz = "";
+                if (response.value == 1) {
+
+                    unitz = "<option value=\"0\">--Choose Unit--</option>";
+                    $.each(response.unit, function (i, item) {
+                        unitz += "<option value=" + item.unitValue + ">" + item.unitName + "</option>";
+                    })
+                    $("#punit").html(unitz);
+
+                    statez = "<option value=\"0\">--Select State--</option>";
+                    $.each(response.state, function (i, item) {
+                        statez += "<option value=" + item.stateValue + ">" + item.stateName + "</option>";
+                    })
+                    $("#state").html(statez);
+                }
+            })
+        };
+           
+        function postproductz() { 
+            $("#newProduct").submit(function (e) {
+                e.preventDefault();
+                let ProductName = $("#pname").val();
+                let ProductPrice = $("#pprice").val();
+                let ProductQuantity = $("#pquan").val();
+                let ProductUnit = $("#punit :selected").val();
+                let ProductState = $("#state :selected").val();
+                let LGA = $("#lga").val();
+                let ProductPict = $("#UploadPica").val();
+                //let ZipCode = $("#zcode").val();             
+
+                var obj = {};
+                obj.ProductName = ProductName;
+                obj.ProductPrice = ProductPrice;
+                obj.ProductQuantity = ProductQuantity;
+                obj.ProductUnit = ProductUnit;
+                obj.State = ProductState;
+                obj.LGA = LGA;
+                obj.ProductPicture = ProductPict;
+                //obj.ZipCode = ZipCode;
+
+                $.ajax({
+                    url: "/api/product",
+                    method: "post",
+                    data: obj
+                })
+                .done(function (response) {
+                    alert(response.msg);
+                })
+                
+            });
+        };
+
+        function UploadProduct() {
+            $("#btnUploadFile").on('click', function () {
+                var data = new FormData();
+                var files = $("#UploadPica").get(0).files;
+
+                // Add the uploaded image content to the form data collection
+                //if (files.length > 0) {
+                //    data.append("UploadedImage", files[0]);
+                //}
+
+                for (var i = 0; i < files.length; i++) {
+                    data.append(files[i].name, files[i]);
+                }
+
+                data.append('username', 'Manase');
+
+                // Make Ajax request with the contentType = false, and procesDate = false
+                var ajaxRequest = $.ajax({
+                    type: "POST",
+                    url: "/fileupload/UploadFiled",
+                    contentType: false,
+                    processData: false,
+                    data: data,
+                    success: function (result) {
+                        alert(result);
+                    }
+                });
+
+                ajaxRequest.done(function (xhr, textStatus) {
+                    console.log("Done");
+                    // Do other operation
+                });
+                ajaxRequest.fail(function (xhr, textStatus) {
+                    console.log("Done");
+                });
+            });
+        }
+
+    </script>
+    }
+
